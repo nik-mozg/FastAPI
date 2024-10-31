@@ -79,7 +79,7 @@ def create_recipe(
     db.add(db_recipe)
     db.commit()
     db.refresh(db_recipe)
-    return db_recipe
+    return schemas.Recipe.from_orm(db_recipe)
 
 
 @router.delete(

@@ -1,3 +1,4 @@
+# schemas.py
 from pydantic import BaseModel, ConfigDict
 
 
@@ -37,4 +38,5 @@ class Recipe(RecipeBase):
 
     id: int
     views: int
-    model_config = ConfigDict(from_attributes=True)
+    class Config:  # Добавьте этот блок
+        orm_mode = True  # Включите режим ORM
