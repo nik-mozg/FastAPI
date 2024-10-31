@@ -1,4 +1,3 @@
-# crud.py
 from sqlalchemy.orm import Session
 from . import models, schemas
 from typing import List, Union
@@ -47,7 +46,13 @@ def create_recipe(db: Session, recipe: schemas.RecipeCreate) -> models.Recipe:
     :return: Созданный рецепт
     :rtype: models.Recipe
     """
-    db_recipe = models.Recipe(**recipe.model_dump())
+    # Создание экземпляра Recipe с извлечением атрибутов из recipe
+    db_recipe = models.Recipe(
+        title=recipe.title,
+        cooking_time=recipe.cooking_time,
+        ingredients=recipe.ingredients,
+        description=recipe.description,
+    )
     db.add(db_recipe)
     db.commit()
     db.refresh(db_recipe)

@@ -57,29 +57,25 @@ def read_recipe(
         raise HTTPException(
             status_code=500, detail="Не удалось обновить счетчик просмотров"
         )
-
     return recipe
 
 
 @router.post(
     "/recipes",
     response_model=schemas.Recipe,
-    status_code=status.HTTP_201_CREATED,  # Убедитесь, что здесь установлен статус 201
+    status_code=status.HTTP_201_CREATED,
     summary="Создать новый рецепт",
     description="Создаёт новый рецепт и сохраняет его в базе данных.",
 )
 def create_recipe(
     recipe: schemas.RecipeCreate, db: Session = Depends(database.get_db)
 ) -> schemas.Recipe:
-    """
-    Создаёт новый рецепт на основе предоставленных данных.
-
-    - **title**: Название рецепта
-    - **cooking_time**: Время приготовления в минутах
-    - **ingredients**: Ингредиенты рецепта
-    - **description**: Описание процесса приготовления
-    """
-    db_recipe = models.Recipe(**recipe.model_dump())
+    db_recipe = models.Recipe(
+        title=recipe.title,
+        cooking_time=recipe.cooking_time,
+        ingredients=recipe.ingredients,
+        description=recipe.description,
+    )
     db.add(db_recipe)
     db.commit()
     db.refresh(db_recipe)
@@ -128,12 +124,18 @@ async def update_recipe(
     - **ingredients**: Новые ингредиенты
     - **description**: Новое описание процесса приготовления
     """
+    # Получаем рецепт из базы данных по ID
     recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
-
+    # Если рецепт не найден, возвращаем ошибку 404
     if not recipe:
         raise HTTPException(status_code=404, detail="Рецепт не найден")
-    for field, value in recipe_data.model_dump().items():
-        setattr(recipe, field, value)
+    # Обновляем атрибуты рецепта
+    recipe.title = recipe_data.title
+    recipe.cooking_time = recipe_data.cooking_time
+    recipe.ingredients = recipe_data.ingredients
+    recipe.description = recipe_data.description
+    # Сохраняем изменения в базе данных
     db.commit()
     db.refresh(recipe)
+    # Возвращаем обновленный рецепт
     return recipe
