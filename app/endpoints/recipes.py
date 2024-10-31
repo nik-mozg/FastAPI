@@ -5,7 +5,6 @@ from typing import List, Dict
 from app import crud, schemas, models, database
 
 
-
 router = APIRouter()
 
 

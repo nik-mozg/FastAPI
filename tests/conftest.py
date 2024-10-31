@@ -5,6 +5,7 @@ from app.main import app
 from app.database import Base, engine, SessionLocal
 from sqlalchemy import text
 
+
 @pytest.fixture(scope="module", autouse=True)
 def setup_module():
     """Создаёт таблицы перед запуском всех тестов и удаляет
@@ -29,7 +30,7 @@ def db_session():
     try:
         yield db
     finally:
-        db.rollback()  
+        db.rollback()
         db.close()
 
 
@@ -38,5 +39,5 @@ def clean_db(db_session):
     """Фикстура для очистки базы данных перед каждым тестом."""
     Base.metadata.create_all(bind=engine)  # Создаём таблицы
     yield
-    db_session.execute(text('DELETE FROM recipes'))  # Используем text()
+    db_session.execute(text("DELETE FROM recipes"))  # Используем text()
     db_session.commit()  # Подтверждаем изменения
