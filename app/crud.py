@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 from typing import List
 
+
 def get_recipes(db: Session) -> List[models.Recipe]:
     """
     Получает все рецепты, отсортированные по количеству просмотров и
