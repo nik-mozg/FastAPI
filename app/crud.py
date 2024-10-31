@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
-from typing import List
+from typing import List, Union
 
 
 def get_recipes(db: Session) -> List[models.Recipe]:
@@ -21,7 +21,7 @@ def get_recipes(db: Session) -> List[models.Recipe]:
     )
 
 
-def get_recipe(db: Session, recipe_id: int) -> models.Recipe | None:
+def get_recipe(db: Session, recipe_id: int) -> Union[models.Recipe, None]:
     """
     Получает рецепт по ID.
 
@@ -63,6 +63,7 @@ def delete_recipe(db: Session, recipe_id: int) -> None:
     :type recipe_id: int
     """
     recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
+
     if recipe:
         db.delete(recipe)
         db.commit()

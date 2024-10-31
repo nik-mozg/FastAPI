@@ -19,7 +19,7 @@ router = APIRouter()
 def read_recipes(db: Session = Depends(database.get_db)) -> List[schemas.Recipe]:
     """
     Возвращает список всех рецептов, отсортированный по
-    популярности (по количеству просмотров) и времени приготовления
+    популярности (по количеству просмотров) и времени приготовления.
     """
     return crud.get_recipes(db)
 
@@ -127,6 +127,7 @@ async def update_recipe(
     - **description**: Новое описание процесса приготовления
     """
     recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
+
     if not recipe:
         raise HTTPException(status_code=404, detail="Рецепт не найден")
     for field, value in recipe_data.model_dump().items():
