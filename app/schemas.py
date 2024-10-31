@@ -11,6 +11,7 @@ class RecipeBase(BaseModel):
         ingredients (str): Список ингредиентов.
         description (str): Описание способа приготовления.
     """
+
     title: str
     cooking_time: int
     ingredients: str
@@ -22,6 +23,7 @@ class RecipeCreate(RecipeBase):
     Модель для создания нового рецепта. Наследуется от RecipeBase.
     Используется при создании записи в базе данных.
     """
+
     pass
 
 
@@ -32,6 +34,7 @@ class Recipe(RecipeBase):
     id (int): Уникальный идентификатор рецепта.
     views (int): Количество просмотров рецепта.
     """
+
     id: int
     views: int
     model_config = ConfigDict(from_attributes=True)

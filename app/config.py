@@ -10,7 +10,8 @@ engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 # Конфигурируем сессию для взаимодействия с базой данных
 SessionLocal: sessionmaker = sessionmaker(
-    autocommit=False, autoflush=False, bind=engine)
+    autocommit=False, autoflush=False, bind=engine
+)
 
 # Базовый класс, который будет использоваться для всех моделей,
 # определяющих структуру базы данных

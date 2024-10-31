@@ -13,10 +13,11 @@ def get_recipes(db: Session) -> list[models.Recipe]:
     времени приготовления
     :rtype: list[models.Recipe]
     """
-    return db.query(
-        models.Recipe).order_by(
-        models.Recipe.views.desc(),
-        models.Recipe.cooking_time.asc()).all()
+    return (
+        db.query(models.Recipe)
+        .order_by(models.Recipe.views.desc(), models.Recipe.cooking_time.asc())
+        .all()
+    )
 
 
 def get_recipe(db: Session, recipe_id: int) -> models.Recipe | None:
@@ -30,9 +31,7 @@ def get_recipe(db: Session, recipe_id: int) -> models.Recipe | None:
     :return: Найденный рецепт или None, если рецепт не найден
     :rtype: models.Recipe | None
     """
-    return db.query(
-        models.Recipe).filter(
-        models.Recipe.id == recipe_id).first()
+    return db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
 
 
 def create_recipe(db: Session, recipe: schemas.RecipeCreate) -> models.Recipe:
@@ -62,9 +61,7 @@ def delete_recipe(db: Session, recipe_id: int) -> None:
     :param recipe_id: ID рецепта для удаления
     :type recipe_id: int
     """
-    recipe = db.query(
-        models.Recipe).filter(
-        models.Recipe.id == recipe_id).first()
+    recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
     if recipe:
         db.delete(recipe)
         db.commit()

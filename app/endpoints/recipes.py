@@ -14,10 +14,9 @@ router = APIRouter()
     description=(
         "Возвращает список всех рецептов, отсортированный по количеству "
         "просмотров и времени приготовления."
-    )
+    ),
 )
-def read_recipes(db: Session = Depends(
-        database.get_db)) -> List[schemas.Recipe]:
+def read_recipes(db: Session = Depends(database.get_db)) -> List[schemas.Recipe]:
     """
     Возвращает список всех рецептов, отсортированный по
     популярности (по количеству просмотров) и времени приготовления
@@ -32,12 +31,11 @@ def read_recipes(db: Session = Depends(
     description=(
         "Возвращает информацию о конкретном рецепте и "
         "увеличивает счетчик просмотров."
-        )
-
+    ),
 )
 def read_recipe(
     recipe_id: int = Path(..., description="ID рецепта для поиска"),
-    db: Session = Depends(database.get_db)
+    db: Session = Depends(database.get_db),
 ) -> schemas.Recipe:
     """
     Получает рецепт по ID. Увеличивает счетчик просмотров
@@ -45,9 +43,7 @@ def read_recipe(
 
     - **recipe_id**: ID рецепта, который нужно найти
     """
-    recipe = db.query(
-        models.Recipe).filter(
-        models.Recipe.id == recipe_id).first()
+    recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
     if not recipe:
         raise HTTPException(status_code=404, detail="Рецепт не найден")
 
@@ -57,19 +53,21 @@ def read_recipe(
         db.refresh(recipe)
     except BaseException:
         db.rollback()
-        raise HTTPException(status_code=500,
-                            detail="Не удалось обновить счетчик просмотров")
+        raise HTTPException(
+            status_code=500, detail="Не удалось обновить счетчик просмотров"
+        )
 
     return recipe
 
 
-@router.post("/recipes",
-             response_model=schemas.Recipe,
-             summary="Создать новый рецепт",
-             description="Создаёт новый рецепт и сохраняет его в базе данных.")
+@router.post(
+    "/recipes",
+    response_model=schemas.Recipe,
+    summary="Создать новый рецепт",
+    description="Создаёт новый рецепт и сохраняет его в базе данных.",
+)
 def create_recipe(
-    recipe: schemas.RecipeCreate,
-    db: Session = Depends(database.get_db)
+    recipe: schemas.RecipeCreate, db: Session = Depends(database.get_db)
 ) -> schemas.Recipe:
     """
     Создаёт новый рецепт на основе предоставленных данных.
@@ -86,12 +84,14 @@ def create_recipe(
     return db_recipe
 
 
-@router.delete("/recipes/{recipe_id}",
-               summary="Удалить рецепт",
-               description="Удаляет рецепт по его ID из базы данных.")
+@router.delete(
+    "/recipes/{recipe_id}",
+    summary="Удалить рецепт",
+    description="Удаляет рецепт по его ID из базы данных.",
+)
 def delete_recipe(
     recipe_id: int = Path(..., description="ID рецепта для удаления"),
-    db: Session = Depends(database.get_db)
+    db: Session = Depends(database.get_db),
 ) -> Dict[str, str]:
     """
     Удаляет рецепт по ID.
@@ -105,14 +105,16 @@ def delete_recipe(
     return {"detail": "Рецепт удален"}
 
 
-@router.put("/recipes/{recipe_id}",
-            response_model=schemas.Recipe,
-            summary="Обновить рецепт",
-            description="Обновляет существующий рецепт по его ID.")
+@router.put(
+    "/recipes/{recipe_id}",
+    response_model=schemas.Recipe,
+    summary="Обновить рецепт",
+    description="Обновляет существующий рецепт по его ID.",
+)
 async def update_recipe(
     recipe_data: schemas.RecipeCreate,
     recipe_id: int = Path(..., description="ID рецепта для обновления"),
-    db: Session = Depends(database.get_db)
+    db: Session = Depends(database.get_db),
 ) -> schemas.Recipe:
     """
     Обновляет существующий рецепт по ID на основе
@@ -124,9 +126,7 @@ async def update_recipe(
     - **ingredients**: Новые ингредиенты
     - **description**: Новое описание процесса приготовления
     """
-    recipe = db.query(
-        models.Recipe).filter(
-        models.Recipe.id == recipe_id).first()
+    recipe = db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
     if not recipe:
         raise HTTPException(status_code=404, detail="Рецепт не найден")
     for field, value in recipe_data.model_dump().items():

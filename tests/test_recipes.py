@@ -10,7 +10,7 @@ def recipe_data() -> dict:
         "title": "Pasta",
         "cooking_time": 15,
         "ingredients": "Pasta, Tomato Sauce",
-        "description": "Boil pasta and add sauce."
+        "description": "Boil pasta and add sauce.",
     }
 
 
@@ -27,7 +27,7 @@ def test_get_recipe(client: TestClient) -> None:
         "title": "Salad",
         "cooking_time": 10,
         "ingredients": "Lettuce, Tomato, Cucumber",
-        "description": "Mix vegetables and season with salt."
+        "description": "Mix vegetables and season with salt.",
     }
     post_response = client.post("/recipes", json=recipe_data)
     recipe_id = post_response.json()["id"]
@@ -50,7 +50,7 @@ def test_update_recipe(client: TestClient) -> None:
         "title": "Soup",
         "cooking_time": 20,
         "ingredients": "Chicken, Vegetables, Broth",
-        "description": "Cook ingredients in broth."
+        "description": "Cook ingredients in broth.",
     }
     post_response = client.post("/recipes", json=recipe_data)
     recipe_id = post_response.json()["id"]
@@ -59,7 +59,7 @@ def test_update_recipe(client: TestClient) -> None:
         "title": "Vegetable Soup",
         "cooking_time": 25,
         "ingredients": "Vegetables, Broth",
-        "description": "Boil vegetables in broth."
+        "description": "Boil vegetables in broth.",
     }
     response = client.put(f"/recipes/{recipe_id}", json=updated_data)
     assert response.status_code == 200
@@ -73,7 +73,7 @@ def test_delete_recipe(client: TestClient) -> None:
         "title": "Smoothie",
         "cooking_time": 5,
         "ingredients": "Banana, Milk, Honey",
-        "description": "Blend all ingredients."
+        "description": "Blend all ingredients.",
     }
     post_response = client.post("/recipes", json=recipe_data)
     recipe_id = post_response.json()["id"]

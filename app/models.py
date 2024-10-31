@@ -14,6 +14,7 @@ class Recipe(Base):
         description (str): Описание способа приготовления.
         views (int): Количество просмотров рецепта, изначально 0.
     """
+
     __tablename__ = "recipes"
 
     id = Column(Integer, primary_key=True, index=True)

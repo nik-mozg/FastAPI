@@ -9,7 +9,7 @@ app = FastAPI(
         "обновлять и удалять рецепты. Полный список маршрутов и их "
         "описания доступен на /docs."
     ),
-    version="1.0.0"
+    version="1.0.0",
 )
 
 
@@ -20,8 +20,11 @@ init_db()
 app.include_router(recipes.router, tags=["recipes"])
 
 
-@app.get("/", summary="Корневой маршрут",
-         response_description="Сообщение приветствия для пользователя")
+@app.get(
+    "/",
+    summary="Корневой маршрут",
+    response_description="Сообщение приветствия для пользователя",
+)
 def read_root() -> dict:
     """
     Корневой маршрут приложения.
@@ -30,7 +33,6 @@ def read_root() -> dict:
     """
     return {
         "message": (
-            "Welcome to the Culinary Book API. "
-            "Visit /docs for API documentation."
+            "Welcome to the Culinary Book API. " "Visit /docs for API documentation."
         )
     }

@@ -10,8 +10,8 @@ def test_main_route() -> None:
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {
-        "message":
-        "Welcome to the Culinary Book API. Visit /docs for API documentation."}
+        "message": "Welcome to the Culinary Book API. Visit /docs for API documentation."
+    }
 
 
 def test_docs_route() -> None:
