@@ -1,0 +1,278 @@
+{
+    "info": {
+        "name": "Culinary Book API Test Collection",
+        "_postman_id": "unique-id-12345",
+        "description": "Collection to test Culinary Book API endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Add Recipe 1",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"title\": \"Pasta\", \"cooking_time\": 15, \"ingredients\": \"Pasta, Tomato Sauce\", \"description\": \"Boil pasta and add sauce.\"}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/recipes",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["recipes"]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "const jsonData = pm.response.json();",
+                            "pm.test(\"Recipe title is correct\", function () {",
+                            "    pm.expect(jsonData.title).to.eql(\"Pasta\");",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Get Recipe 1 and Check View Counter",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/recipes/1",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["recipes", "1"]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "const jsonData = pm.response.json();",
+                            "pm.test(\"View counter is 1\", function () {",
+                            "    pm.expect(jsonData.views).to.eql(1);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Get Recipe 1 Again and Check Incremented View Counter",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/recipes/1",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["recipes", "1"]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "const jsonData = pm.response.json();",
+                            "pm.test(\"View counter is incremented to 2\", function () {",
+                            "    pm.expect(jsonData.views).to.eql(2);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Add Recipe 2",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"title\": \"Salad\", \"cooking_time\": 10, \"ingredients\": \"Lettuce, Tomato, Cucumber\", \"description\": \"Mix vegetables and season with salt.\"}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/recipes",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["recipes"]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "const jsonData = pm.response.json();",
+                            "pm.test(\"Recipe title is correct\", function () {",
+                            "    pm.expect(jsonData.title).to.eql(\"Salad\");",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Add Recipe 3",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"title\": \"Soup\", \"cooking_time\": 20, \"ingredients\": \"Chicken, Vegetables, Broth\", \"description\": \"Cook ingredients in broth.\"}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/recipes",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["recipes"]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "const jsonData = pm.response.json();",
+                            "pm.test(\"Recipe title is correct\", function () {",
+                            "    pm.expect(jsonData.title).to.eql(\"Soup\");",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Add Recipe 4",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"title\": \"Sandwich\", \"cooking_time\": 5, \"ingredients\": \"Bread, Cheese, Ham\", \"description\": \"Layer ingredients between bread slices.\"}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/recipes",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["recipes"]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "const jsonData = pm.response.json();",
+                            "pm.test(\"Recipe title is correct\", function () {",
+                            "    pm.expect(jsonData.title).to.eql(\"Sandwich\");",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Delete Recipe 1",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/recipes/1",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["recipes", "1"]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "const jsonData = pm.response.json();",
+                            "pm.test(\"Deletion confirmation message\", function () {",
+                            "    pm.expect(jsonData.detail).to.eql(\"Рецепт удален\");",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Get All Recipes After Deletion",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:8000/recipes",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["recipes"]
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "const jsonData = pm.response.json();",
+                            "pm.test(\"Three recipes should remain\", function () {",
+                            "    pm.expect(jsonData.length).to.eql(3);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        }
+    ]
+}
