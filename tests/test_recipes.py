@@ -14,11 +14,18 @@ def recipe_data() -> dict:
     }
 
 
-def test_create_recipe(client: TestClient, recipe_data: dict) -> None:
-    """Тестирует создание рецепта и проверяет ответ."""
+def test_create_recipe(client, db_session):
+    """Тестирует создание рецепта"""
+    recipe_data = {
+        "title": "Soup",
+        "cooking_time": 20,
+        "ingredients": "Chicken, Vegetables, Broth",
+        "description": "Cook ingredients in broth.",
+    }
+
     response = client.post("/recipes", json=recipe_data)
-    assert response.status_code == 200
-    assert response.json()["title"] == "Pasta"
+    assert response.status_code == 201
+    assert response.json() == {**recipe_data, "id": 1, "views": 0}
 
 
 def test_get_recipe(client: TestClient) -> None:

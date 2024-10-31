@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, Path
+# recipes.py
+from fastapi import APIRouter, Depends, HTTPException, Path, status
 from sqlalchemy.orm import Session
 from typing import List, Dict
-from .. import crud, schemas, models, database
+from app import crud, schemas, models, database
+
 
 
 router = APIRouter()
@@ -63,6 +65,7 @@ def read_recipe(
 @router.post(
     "/recipes",
     response_model=schemas.Recipe,
+    status_code=status.HTTP_201_CREATED,  # Убедитесь, что здесь установлен статус 201
     summary="Создать новый рецепт",
     description="Создаёт новый рецепт и сохраняет его в базе данных.",
 )
